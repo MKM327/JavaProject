@@ -30,7 +30,7 @@ public class CellListener implements MouseListener {
                 ImageIcon icon = new ImageIcon(systemResource);
                 cell.setIcon(Cell.resizeIcon(icon,30,30));
                 Board.Mines_Remaining_Text.setText("Game Over!");
-                Board.GameOver();
+                GameArea.GameOver();
 
             }
             else {
@@ -56,7 +56,7 @@ public class CellListener implements MouseListener {
         }
     }
     public void CheckCells(int row,int column){
-        Cell cell = Board.cells[row][column];
+        Cell cell = GameArea.cells[row][column];
         if (cell.GetState().equals(CellState.NearBomb)){
             cell.setIcon(Board.Resources[cell.HowManyBombsAround]);
             return;
@@ -65,8 +65,8 @@ public class CellListener implements MouseListener {
         for (int i = row-1;i<row+2;i++){
             for (int j = column-1;j<column+2;j++){
                 if ((i < 0 || i >= 10) || (j < 0 || j >= 10)) continue;
-                CellState state = Board.cells[i][j].GetState();
-                if (state.equals(CellState.Empty)&&!Board.cells[i][j].IsChecked)
+                CellState state = GameArea.cells[i][j].GetState();
+                if (state.equals(CellState.Empty)&&!GameArea.cells[i][j].IsChecked)
                 {
                     cell.setIcon(Board.Resources[0]);
 
@@ -74,7 +74,7 @@ public class CellListener implements MouseListener {
                 }
                 else if(state.equals(CellState.NearBomb))
                 {
-                    Board.cells[i][j].setIcon(Board.Resources[Board.cells[i][j].HowManyBombsAround]);
+                    GameArea.cells[i][j].setIcon(Board.Resources[GameArea.cells[i][j].HowManyBombsAround]);
 
                 }
                 else if(state.equals(CellState.Empty))
