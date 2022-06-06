@@ -18,16 +18,16 @@ public class CellListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-
-
         Cell cell = (Cell)e.getSource();
         if (cell.GetState().equals(CellState.Bomb)){
             URL systemResource = ClassLoader.getSystemResource("Resources/bomb.png");
             ImageIcon icon = new ImageIcon(systemResource);
+            cell.setIcon(Cell.resizeIcon(icon,30,30));
 
         }
-        CheckEmptyCell(cell.Row,cell.Column);
-
+        else {
+            CheckEmptyCell(cell.Row, cell.Column);
+        }
     }
     public void CheckEmptyCell(int row,int column){
         Cell cell = Board.cells[row][column];
