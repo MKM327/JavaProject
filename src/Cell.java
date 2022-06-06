@@ -9,10 +9,11 @@ public class Cell extends JButton {
     public int HowManyBombsAround;
     public int Row,Column;
     public boolean IsChecked = false;
+    public boolean IsFlagged;
     public Cell(int row,int column,Icon icon){
         super(icon);
         this.state = CellState.Empty;
-        this.addActionListener(CellListener.GetInstance());
+        this.addMouseListener(CellListener.GetInstance());
         this.Row = row;
         this.Column = column;
     }

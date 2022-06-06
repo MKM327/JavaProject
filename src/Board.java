@@ -8,14 +8,20 @@ public class Board extends JFrame {
     private static final int MineColumns = 10;
 
     JPanel jPanel = new JPanel(new GridLayout(10,10,5,5));
+    public static JPanel descriptionPanel= new JPanel();
     public static final Cell[][] cells = new Cell[MineRows][MineColumns];
     public static final ImageIcon[] Resources = new ImageIcon[10];
+    public  static JLabel Mines_Remaining_Text;
+    public static int RemainingMines = 15;
+
     public Board(){
-        this.setContentPane(jPanel);
+        descriptionPanel.setSize(new Dimension(500,100));
+        this.add(descriptionPanel);
+        this.add(jPanel);
+        jPanel.setBorder(BorderFactory.createEmptyBorder(100,0,0,0));
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         GetImages();
-
-        jPanel.setBorder(BorderFactory.createEmptyBorder(100,0,0,0));
+        SetDescriptions();
         initCells();
         SetBombs();
         CheckCellBombs();
@@ -31,6 +37,10 @@ public class Board extends JFrame {
             Resources[i] = Cell.resizeIcon(icon,40,30);
         }
     }
+    private void SetDescriptions(){
+        Mines_Remaining_Text = new JLabel("15 Mines Remaining");
+        descriptionPanel.add(Mines_Remaining_Text);
+    }
 
     private void initCells() {
         URL systemResource = ClassLoader.getSystemResource("Resources/facingDown.png");
@@ -39,7 +49,7 @@ public class Board extends JFrame {
         for (int i = 0 ; i<10;i++){
             for (int j = 0 ; j<10;j++){
                 cells[i][j] = new Cell(i,j,resizedIcon);
-                this.add(cells[i][j]);
+                jPanel.add(cells[i][j]);
             }
         }
 
@@ -74,7 +84,7 @@ public class Board extends JFrame {
     }
     private void SetBombs(){
         Random random = new Random();
-        for (int i = 0; i<20;i++){
+        for (int i = 0; i<10;i++){
             int row = random.nextInt(0,10);
             int column = random.nextInt(0,10);
             cells[row][column].SetState(CellState.Bomb);
@@ -82,6 +92,20 @@ public class Board extends JFrame {
 
         }
 
+    }
+    public  static void GameOver(){
+        for (int i = 0 ; i<10;i++){
+            for (int j = 0 ; j<10;j++){
+                Cell cell = cells[i][j];
+                if (cell.GetState().equals(CellState.Bomb)){
+                    URL systemResource = ClassLoader.getSystemResource("Resources/bomb.png");
+                    ImageIcon icon = new ImageIcon(systemResource);
+                    cell.setIcon(Cell.resizeIcon(icon,30,30));
+                }
+                cell.removeMouseListener(cell.getMouseListeners()[1]);
+                cell.removeMouseListener(cell.getMouseListeners()[0]);
+            }
+        }
     }
 
 }
