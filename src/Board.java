@@ -36,7 +36,7 @@ public class Board extends JFrame {
         }
     }
     private void SetDescriptions(){
-        Mines_Remaining_Text = new JLabel("15 Mines Remaining");
+        Mines_Remaining_Text = new JLabel("10 Mines Remaining");
         descriptionPanel.add(Mines_Remaining_Text);
 
     }

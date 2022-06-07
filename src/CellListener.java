@@ -22,7 +22,7 @@ public class CellListener implements MouseListener {
         if (GameArea.isGameFinished){
             Board.Mines_Remaining_Text.setText("You Win");
         }
-        System.out.println(cell.GetState());
+
         if (SwingUtilities.isRightMouseButton(e)&& !cell.GetState().equals(CellState.Open)){
            SetFlag(cell);
 
@@ -41,7 +41,6 @@ public class CellListener implements MouseListener {
             else {
                 CheckCells(cell.Row, cell.Column);
 
-                System.out.println(cell.GetState());
 
             }
         }
