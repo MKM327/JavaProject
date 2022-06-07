@@ -19,11 +19,15 @@ public class CellListener implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         Cell cell = (Cell)e.getSource();
         CheckWin();
-
-        if (SwingUtilities.isRightMouseButton(e)){
+        if (GameArea.isGameFinished){
+            Board.Mines_Remaining_Text.setText("You Win");
+        }
+        System.out.println(cell.GetState());
+        if (SwingUtilities.isRightMouseButton(e)&& !cell.GetState().equals(CellState.Open)){
            SetFlag(cell);
 
         }
+
         else {
             if (cell.GetState().equals(CellState.Bomb)){
 
@@ -36,6 +40,9 @@ public class CellListener implements MouseListener {
             }
             else {
                 CheckCells(cell.Row, cell.Column);
+
+                System.out.println(cell.GetState());
+
             }
         }
     }
@@ -57,41 +64,49 @@ public class CellListener implements MouseListener {
         }
     }
     public void CheckWin(){
+        var EmptySlotCount = 0;
         for (int i = 0 ; i<10;i++){
             for (int j = 0 ; j<10;j++){
-                if (!GameArea.cells[i][j].IsChecked){
-                    GameArea.isGameFinished = false;
-                    return;
+                if (GameArea.cells[i][j].IsChecked){
+                    EmptySlotCount++;
                 }
-                GameArea.isGameFinished = true;
+
 
             }
         }
+        System.out.println(EmptySlotCount);
+        if (EmptySlotCount ==89)
+            GameArea.isGameFinished = true;
     }
     public void CheckCells(int row,int column){
         Cell cell = GameArea.cells[row][column];
+        if (cell.GetState().equals(CellState.Empty))
+            cell.SetState(CellState.Open);
+
         if (cell.GetState().equals(CellState.NearBomb)){
             cell.setIcon(Board.Resources[cell.HowManyBombsAround]);
+            cell.IsChecked =true;
             return;
         }
         cell.IsChecked = true;
         for (int i = row-1;i<row+2;i++){
             for (int j = column-1;j<column+2;j++){
                 if ((i < 0 || i >= 10) || (j < 0 || j >= 10)) continue;
-                CellState state = GameArea.cells[i][j].GetState();
-                if (state.equals(CellState.Empty)&&!GameArea.cells[i][j].IsChecked)
+                Cell CheckedCell = GameArea.cells[i][j];
+                if (CheckedCell.GetState().equals(CellState.Empty)&&!GameArea.cells[i][j].IsChecked)
                 {
                     cell.setIcon(Board.Resources[0]);
 
                     CheckCells(i,j);
                 }
-                else if(state.equals(CellState.NearBomb))
+                else if(CheckedCell.GetState().equals(CellState.NearBomb))
                 {
                     GameArea.cells[i][j].setIcon(Board.Resources[GameArea.cells[i][j].HowManyBombsAround]);
+                    GameArea.cells[i][j].IsChecked = true;
 
 
                 }
-                else if(state.equals(CellState.Empty))
+                else if(CheckedCell.GetState().equals(CellState.Open))
                 {
                     cell.setIcon(Board.Resources[0]);
 
