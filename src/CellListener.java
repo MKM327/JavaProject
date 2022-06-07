@@ -18,6 +18,7 @@ public class CellListener implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         Cell cell = (Cell)e.getSource();
+        CheckWin();
 
         if (SwingUtilities.isRightMouseButton(e)){
            SetFlag(cell);
@@ -55,6 +56,18 @@ public class CellListener implements MouseListener {
 
         }
     }
+    public void CheckWin(){
+        for (int i = 0 ; i<10;i++){
+            for (int j = 0 ; j<10;j++){
+                if (!GameArea.cells[i][j].IsChecked){
+                    GameArea.isGameFinished = false;
+                    return;
+                }
+                GameArea.isGameFinished = true;
+
+            }
+        }
+    }
     public void CheckCells(int row,int column){
         Cell cell = GameArea.cells[row][column];
         if (cell.GetState().equals(CellState.NearBomb)){
@@ -75,6 +88,7 @@ public class CellListener implements MouseListener {
                 else if(state.equals(CellState.NearBomb))
                 {
                     GameArea.cells[i][j].setIcon(Board.Resources[GameArea.cells[i][j].HowManyBombsAround]);
+
 
                 }
                 else if(state.equals(CellState.Empty))

@@ -11,7 +11,7 @@ public class Board extends JFrame {
 
     public static final ImageIcon[] Resources = new ImageIcon[10];
     public  static JLabel Mines_Remaining_Text;
-    public static int RemainingMines = 15;
+    public static int RemainingMines = 10;
     public static JButton PlayAgainBtn;
 
     public Board(){
