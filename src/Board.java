@@ -8,7 +8,6 @@ import java.util.Random;
 public class Board extends JFrame {
 
     public static JPanel descriptionPanel= new JPanel();
-
     public static final ImageIcon[] Resources = new ImageIcon[10];
     public  static JLabel Mines_Remaining_Text;
     public static int RemainingMines = 10;
@@ -19,7 +18,9 @@ public class Board extends JFrame {
         this.add(descriptionPanel);
         GameArea gamePanel = new GameArea();
         this.add(gamePanel);
-
+        URL systemResource = ClassLoader.getSystemResource("Resources/bomb.png");
+        ImageIcon icon = new ImageIcon(systemResource);
+        this.setIconImage(icon.getImage());
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         GetImages();
         SetDescriptions();
