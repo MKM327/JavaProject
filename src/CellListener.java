@@ -18,6 +18,7 @@ public class CellListener implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         Cell cell = (Cell)e.getSource();
+        System.out.println(cell.GetState());
         CheckWin();
         if (GameArea.isGameFinished){
             Board.Mines_Remaining_Text.setText("You Win");
@@ -46,12 +47,15 @@ public class CellListener implements MouseListener {
         }
     }
     public void SetFlag(Cell cell){
-        if (!cell.IsFlagged){
+        if (!cell.IsFlagged && !cell.IsChecked){
             cell.IsFlagged = true;
             URL systemResource = ClassLoader.getSystemResource("Resources/flagged.png");
             ImageIcon icon = new ImageIcon(systemResource);
             cell.setIcon(Cell.resizeIcon(icon,40,30));
             Board.Mines_Remaining_Text.setText(""+--Board.RemainingMines+" Mines Remaining");
+        }
+        else if (cell.GetState().equals(CellState.NearBomb)){
+            return;
         }
         else{
             cell.IsFlagged = false;
@@ -73,7 +77,6 @@ public class CellListener implements MouseListener {
 
             }
         }
-        System.out.println(EmptySlotCount);
         if (EmptySlotCount ==89)
             GameArea.isGameFinished = true;
     }

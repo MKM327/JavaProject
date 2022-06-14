@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.Random;
 
@@ -29,8 +27,6 @@ public class GameArea extends JPanel {
                 this.add(cells[i][j]);
             }
         }
-
-
     }
     public void CheckCellBombs(){
         for (int i = 0 ; i<10;i++){
